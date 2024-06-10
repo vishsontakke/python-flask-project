@@ -1,0 +1,19 @@
+.main-menu-links
+{
+    text-decoration: none;
+    color: black;
+}
+.main-menu-links:hover
+{
+    color: black;
+}
+.menu-cards
+{
+    cursor: pointer;
+}
+.menu-cards:hover
+{
+    border-bottom: 2px solid orange;
+    background: rgb(173,173,173);
+    background: linear-gradient(0deg, rgba(173,173,173,1) 0%, rgba(255,160,0,0.09987745098039214) 100%);
+}

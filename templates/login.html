@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center" style="margin-top:45px;">
+    <div class="row col-md-6 p-4 border" style="background-color:white;border-radius:14px;box-shadow:0px 1px 1px grey;max-width:350px;">
+        <form id="login-form">
+            {{ form.hidden_tag() }}
+            <div class="mb-3">
+                <label for="login-form-email" class="form-label">Email address</label>
+                <input type="email" name="email" class="form-control" id="login-form-email" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+                <label for="login-form-password" class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" id="login-form-password">
+            </div>
+            <button type="submit" id="login-form-submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block script %}
+<script>
+    $(function(){
+        $('#login-form-submit').click(function(e){
+            e.preventDefault();
+
+            let csrf_token  = $('#csrf_token').val();
+            let email       = $('#login-form-email').val();
+            let password    = $('#login-form-password').val();
+
+            if(!email || !password)
+            {
+                if(!email)
+                {
+                    $('#login-form-email').addClass('is-invalid');
+                }
+                if(!password)
+                {
+                    $('#login-form-password').addClass('is-invalid');
+                }
+
+                setTimeout(() => {
+                    $('#login-form-email').removeClass('is-invalid');
+                    $('#login-form-password').removeClass('is-invalid');
+                }, 2000);
+
+                return false;
+            }
+
+
+            $('#loader').modal('show');
+            
+            $.ajax({
+                url: '/login',
+                type: 'POST',
+                headers: {
+                    "X-CSRFToken": csrf_token,
+                   // 'Content-Type': 'application/json',
+                },
+                data: {
+                    email: email,
+                    password: password
+                },
+                success: function(response){
+                    setTimeout(() => {
+                        $('#loader').modal('hide');
+                        console.log('hide')
+                    }, 1000);
+                    if(response)
+                    {
+                        if(response.status)
+                        {
+                            alertify.set('notifier','position', 'top-right');
+                            alertify.success(response.msg);
+
+                            setTimeout(() => {
+                                window.location.href = response.data.redirect;
+                            }, 3000);
+                        }
+                        else
+                        {
+                            alertify.set('notifier','position', 'top-right');
+                            alertify.warning(response.msg);
+                        }
+                    }
+                },
+                error: function(error){
+                    $('#loader').modal('hide');
+                    console.log(error);
+                }
+            })
+            
+        });
+    });
+
+</script>
+{% endblock %}

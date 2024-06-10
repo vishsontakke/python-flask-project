@@ -1,0 +1,39 @@
+.statics-card
+{
+    background: hsla(113, 96%, 81%, 1);
+    background: linear-gradient(180deg, hsla(113, 96%, 81%, 1) 50%, hsla(188, 90%, 51%, 1) 100%);
+    background: -moz-linear-gradient(180deg, hsla(113, 96%, 81%, 1) 50%, hsla(188, 90%, 51%, 1) 100%);
+    background: -webkit-linear-gradient(180deg, hsla(113, 96%, 81%, 1) 50%, hsla(188, 90%, 51%, 1) 100%);
+    filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#ADFDA2", endColorstr="#11D3F3", GradientType=1 );
+}
+.statics-card-title
+{
+    font-weight: bolder!important;
+}
+label[option-type=not-selected-correct]
+{
+    border: 1px solid green!important;
+}
+label[option-type=not-selected-correct] input
+{
+    background-color: green!important;
+    border-color: green!important;
+}
+label[option-type=selected-correct]
+{
+    border: 1px solid green!important;
+}
+label[option-type=selected-correct] input
+{
+    background-color: green!important;
+    border-color: green!important;
+}
+label[option-type=selected-wrong]
+{
+    border: 1px solid red!important;
+}
+label[option-type=selected-wrong] input
+{
+    background-color: red!important;
+    border-color: red!important;
+}

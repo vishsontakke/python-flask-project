@@ -1,0 +1,44 @@
+
+.navbar-brand:hover
+{
+    color: black;
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 2px grey;
+    background: rgb(34, 193, 195);
+    background: linear-gradient(0deg, rgba(34, 193, 195, 1) 0%, rgba(45, 171, 253, 1) 100%);
+}
+
+.hover-underline-animation {
+    display: inline-block;
+    position: relative;
+    color: #0087ca;
+}
+
+.hover-underline-animation::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #0087ca;
+    transform-origin: bottom right;
+    transition: transform 0.25s ease-out;
+}
+
+.hover-underline-animation:hover {
+    font-size: 1.02rem;
+    font-weight: bolder;
+}
+.hover-underline-animation:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.breadcrumb a
+{
+    text-decoration: none;
+    color: black;
+}

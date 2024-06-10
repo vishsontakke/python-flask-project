@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="csrf-token" content="{{ csrf_token }}"> -->
+    <title>{% block title %}{% endblock %}</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='summernote/summernote-lite.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='alertifyjs/css/alertify.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/select2.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+
+    <!-- DataTables -->
+    <link href="{{ url_for('static', filename='css/datatables.min.css') }}" rel="stylesheet">
+    
+    {% block css %}{% endblock %}
+    
+    <!-- <script src="{{ url_for('static', filename='js/tinyMCA.min.js') }}"></script> -->
+    <!-- <script type="text/javascript">
+        /*var csrftoken = $('meta[name=csrf-token]').attr('content')
+
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type)) {
+                    xhrf.xhr.setRequestHeader("X-CSRFToken", csrftoken)
+                }
+            }
+        });*/
+        var csrftoken = "{{ csrf_token() }}";
+    </script> -->
+
+</head>
+<body style="background-color:#eeeeee;">
+
+    {% include 'header.html' %}
+
+    {% include 'messages.html' %}
+
+    {% block content %}{% endblock %}
+
+
+    <div class="modal modal-sm fade" id="loader" aria-hidden="true" aria-labelledby="loaderLabel" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-body d-flex justify-content-center align-item-center">
+                <img src="{{ url_for('static', filename='gif/loader.gif') }}" alt="loader" style="border-radius:50%;">
+            </div>
+        </div>
+    </div>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script> -->
+
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jQuery.min.js') }}"></script> 
+    <script src="{{ url_for('static', filename='js/jQuery.cookie.js') }}"></script> 
+    <script src="{{ url_for('static', filename='js/datatables.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='summernote/summernote-lite.min.js') }}"></script>
+    <!-- <script src="{{ url_for('static', filename='js/tinyMCA.min.js') }}"></script> -->
+    <script src="{{ url_for('static', filename='alertifyjs/alertify.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/select2.full.min.js') }}"></script>
+
+
+    <script type="text/javascript">
+        var csrf_token = "{{ csrf_token() }}";
+    
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrf_token);
+                }
+            },
+        });
+        
+
+        function setCookie(key, value, expiryDays) {
+            if(typeof value != 'string')
+                value = JSON.stringify(value);
+                
+            const dateObj = new Date();
+            dateObj.setTime(dateObj.getTime() + (expiryDays * 24 * 60 * 60 * 1000));
+            let expires = "expires=" + dateObj.toUTCString();
+            document.cookie = key + "=" + value + ";" + expires + ";";
+        }
+        
+        function deleteCookie(key) {
+            if (getCookie(key) !== "") {
+                document.cookie = key + "=;expires=Thu, 01 Jan 1970";
+            }
+        }
+        
+        function getCookie(key) {
+            let name = key + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i < ca.length; i++)
+            {
+                let c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+    </script>
+
+    <script src="{{ url_for('static', filename='js/header.js') }}" ></script>
+
+    {% block script %}{% endblock %}
+
+</body>
+</html>

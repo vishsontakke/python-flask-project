@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+
+{% block css %}
+<style>
+    .show-password
+    {
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="container d-flex justify-content-center align-items-center" style="margin-top:45px;">
+    <div class="row col-md-8 col-lg-4 p-4 border" style="background-color:white;border-radius:14px;box-shadow:0px 1px 1px grey;max-width:350px ">
+        
+        <form id="register-form">
+            {{ form.hidden_tag() }}
+            
+
+            <div class="mb-3">
+                <label for="first_name" class="form-label">First Name</label>
+                {{ form.first_name }}               
+                <div id="first_name_help" class="form-text"></div>
+                <div class="first_name_errors errors"></div>
+            </div>
+            <div class="mb-3">
+                <label for="middle_name" class="form-label">Middle Name</label>
+                {{ form.middle_name }}               
+                <div id="middle_name_help" class="form-text"></div>
+                <div class="middle_name_errors errors"></div>
+            </div>
+            <div class="mb-3">
+                <label for="last_name" class="form-label">Last Name</label>
+                {{ form.last_name }}               
+                <div id="last_name_help" class="form-text"></div>
+                <div class="last_name_errors errors"></div>
+            </div>
+            <div class="mb-3">
+                <label for="role" class="form-label">Role</label>
+                {{ form.role }}               
+                <div id="role_help" class="form-text"></div>
+                <div class="role_errors errors"></div>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email ID</label>
+                {{ form.email }}               
+                <div id="email_help" class="form-text"></div>
+                <div class="email_errors errors"></div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="password1" class="form-label">Password</label>
+                <div class="input-group mb-3">
+                    {{ form.password1 }}
+                    <span class="input-group-text show-password"><i class="fa-solid fa-eye-slash"></i></span>
+                </div>             
+                <div id="password1_help" class="form-text"></div>
+                <div class="password1_errors errors"></div>
+            </div>
+            <div class="mb-3">
+                <label for="password2" class="form-label">Confirm Password</label>
+                <div class="input-group mb-3">
+                    {{ form.password2 }}
+                    <span class="input-group-text show-password"><i class="fa-solid fa-eye-slash"></i></span>
+                </div>             
+                <div id="password2_help" class="form-text"></div>
+                <div class="password2_errors errors"></div>
+            </div>
+
+            {{ form.submit }}
+            
+        </form>
+
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block script %}
+<script>
+    $(function(){
+
+        $('.show-password').click(function(){
+            let iconClass = $(this).find('i');
+
+            if(iconClass.hasClass('fa-eye-slash'))
+            {
+                $(iconClass).removeClass('fa-eye-slash');
+                $(iconClass).addClass('fa-eye');
+                $(this).parent().parent().find('input').prop('type', 'text');
+            }
+            else
+            {
+                $(iconClass).removeClass('fa-eye');
+                $(iconClass).addClass('fa-eye-slash');
+                $(this).parent().parent().find('input').prop('type', 'password');
+            }
+
+        });
+
+
+
+        $('#register-form-submit').click(function(e){
+            e.preventDefault();
+            
+            let form        = $('#register-form');
+            let csrf_token  = $(form).find('#csrf_token').val();
+            let first_name  = $(form).find('#first_name').val();
+            let middle_name = $(form).find('#middle_name').val();
+            let last_name   = $(form).find('#last_name').val();
+            let role        = $(form).find('#role option:selected').val();
+            let email       = $(form).find('#email').val();
+            let password1   = $(form).find('#password1').val();
+            let password2   = $(form).find('#password2').val();
+
+            let mailformat  =  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+            if(!first_name || !last_name || !role || !email || !password1 || !password2)
+            {
+                if(!first_name)
+                {
+                    $('.first_name_errors').html("<span style='color:red'>First Name field is required</span>");
+                }
+                if(!last_name)
+                {
+                    $('.last_name_errors').html("<span style='color:red'>Last Name field is required</span>");
+                }
+                if(!role)
+                {
+                    $('.role_errors').html("<span style='color:red'>Role field is required</span>");
+                }
+                if(!email)
+                {
+                    $('.email_errors').html("<span style='color:red'>Email field is required</span>");
+                }
+                if(!password1)
+                {
+                    $('.password1_errors').html("<span style='color:red'>Password field is required</span>");
+                }
+                if(!password2)
+                {
+                    $('.password2_errors').html("<span style='color:red'>Confirm Password field is required</span>");
+                }
+
+                setTimeout(() => {
+                    $(form).find('.errors').html("");
+                }, 5000);
+
+                return false;
+            }
+            
+            if(email.length != 0 && !email.match(mailformat))
+            {
+                $('#email_help').html("<span style='color:red'>Email ID is not valid</span>");
+                setTimeout(() => {
+                    $('#email_help').html("");
+                }, 5000)
+                return false;
+            }
+
+            $('#loader').modal('show');
+            $.ajax({
+                url: '/register',
+                type: 'POST',
+                headers: {
+                    "X-CSRFToken": csrf_token,
+                   // 'Content-Type': 'application/json',
+                },
+                data: {
+                    first_name  : first_name,
+                    middle_name : middle_name,
+                    last_name   : last_name,
+                    role        : role,
+                    email       : email,
+                    password1   : password1,
+                    password2   : password2
+                },
+                success: function(response){
+                    $('#loader').modal('hide');
+                    if(response)
+                    {
+                        if(!response.status)
+                        {
+                            alertify.set('notifier','position', 'top-right');
+                            alertify.warning(response.msg);
+                        }
+                        else
+                        {
+                            alertify.set('notifier','position', 'top-right');
+                            alertify.success(response.msg);
+
+                            setTimeout(() => {
+                                window.location.href = response.data.redirect;
+                            }, 3000);
+                        }
+                    }
+                },
+                error: function(error){
+                    $('#loader').modal('hide');
+                    console.log(error);
+                }
+            });
+            
+        });
+    });
+
+</script>
+{% endblock %}

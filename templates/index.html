@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block css %}
+<style>
+    .language-option
+    {
+        transition: transform .2s;
+    }
+    .language-option:hover
+    {
+        filter: drop-shadow(0px 0px 4px grey);
+        cursor: pointer;
+        transform: scale(1.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+
+
+<div class="container">
+    <div class="row row-cols-md-2 row-cols-sm-1 row-cols-lg-4 g-3">
+        <div class="col text-center">
+            <a href="{{ url_for('subjects') }}" class="main-menu-links">
+                <div class="card h-100 menu-cards">
+                    <div class="card-body">
+                    <h5 class="card-title">SUBJECTS</h5>
+                    <!-- <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col text-center">
+            <a href="{{ url_for('tests') }}" class="main-menu-links">
+                <div class="card h-100 menu-cards">
+                    <div class="card-body">
+                        <h5 class="card-title">TESTS</h5>
+                        <!-- <p class="card-text">This is a short card.</p> -->
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col text-center">
+            <a href="{{ url_for('questions') }}" class="main-menu-links">
+                <div class="card h-100 menu-cards">
+                    <div class="card-body">
+                        <h5 class="card-title">QUESTION BANK</h5>
+                        <!-- <p class="card-text">This is a short card.</p> -->
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col text-center">
+            <a href="{{ url_for('certificates') }}" class="main-menu-links">
+                <div class="card h-100 menu-cards">
+                    <div class="card-body">
+                        <h5 class="card-title">MY CERTIFICATES</h5>
+                        <!-- <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p> -->
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

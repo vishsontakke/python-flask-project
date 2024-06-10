@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ subject.name }} | Tests{% endblock %}
+
+{% block css %}
+<style>
+    .card:hover
+    {
+        border-left: 3px solid rgb(19, 187, 4);
+        border-radius: 6px;
+        cursor: pointer;
+        box-shadow: 1px 1px 2px rgb(190, 232, 135);
+    }
+    .test-badges
+    {
+        box-shadow: 0px 0px 3px grey;
+        border: 1px solid white;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% include 'breadcrumb.html' %}
+
+
+<div class="container mt-4">
+    <div class="row">
+        {% if all_tests %}
+            {% for test in all_tests %}
+                <div class="col-lg-4">
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <span class="visually-hidden details"
+                            id="{{ test.id }}"
+                            name="{{ test.name }}"
+                            time="{{ test.time }}"
+                            marks="{{ test.marks }}"
+                            question-length="{{ test.questions|length }}"
+                        ></span>
+                        <div class="row g-0">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ test.name }}</h5>
+                                <div class="list-group">
+                                    <a href="#" class="list-group-item list-group-item-action d-flex gap-3 py-3 start-test" aria-current="true">
+                                      <img src="{{ url_for('static', filename='img/logos/'+test.subject_logo) }}" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+                                      <div class="d-flex gap-2 w-100 justify-content-between">
+                                        <div>
+                                          <!-- <h6 class="mb-0">List group item heading</h6> -->
+                                          <p class="mb-0 opacity-75">
+                                            <span class="badge rounded-pill test-badges text-bg-dark">{{ test.time }} min.</span>
+                                            <span class="badge rounded-pill test-badges text-bg-success">{{ test.marks }} Marks</span>
+                                            <!-- <span class="badge rounded-pill test-badges text-bg-primary">{{ test.questions|length }} Questions</span> -->
+                                          </p>
+                                        </div>
+                                        <!-- <small class="opacity-50 text-nowrap">now</small> -->
+                                      </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <h3>No test available !!!</h3>
+        {% endif %}
+        
+    </div>
+</div>
+
+
+
+<!-- Confirmation modal -->
+<div class="modal fade" id="confirmationDialog" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="confirmationDialogLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h1 class="modal-title fs-5" id="confirmationDialogLabel"></h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <table class="table table-hover border shadow-sm">
+                <tbody>
+                    <tr>
+                        <th>Time</th>
+                        <th>:</th>
+                        <td id="test-time"></td>
+                    </tr>
+                    <tr>
+                        <th>Mark</th>
+                        <th>:</th>
+                        <td id="test-marks"></td>
+                    </tr>
+                    <tr>
+                        <th>Question Count</th>
+                        <th>:</th>
+                        <td id="test-q-count"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <form action="" method="POST">
+                <input type="hidden" name="csrf_token" value = "{{ csrf_token() }}">
+                <input type="hidden" name="test_id" value="">
+                <input type="hidden" name="action" value="start-test">
+                <input type="submit" class="btn btn-warning" id="start-test-confirmed" test-id="" value="Start Test">
+            </form>
+        </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='js/subject-test.js') }}" ></script>
+{% endblock %}

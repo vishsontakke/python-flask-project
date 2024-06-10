@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% block title %}Subject{% endblock %}
+
+{% block css %}
+<style>
+    .language-option
+    {
+        transition: transform .2s;
+    }
+    .language-option:hover
+    {
+        filter: drop-shadow(0px 0px 4px grey);
+        cursor: pointer;
+        transform: scale(1.05);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% include 'breadcrumb.html' %}
+
+
+{% if current_user.isAdmin %}
+    <div class="container">
+        <div class="row">
+            <div class="card">
+                <div class="card-body" style="padding:6px">
+                    <button id="add-subject" class="btn btn-sm btn-success"><i class="fa-solid fa-plus"></i>&nbsp;NEW</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+<div class="container mt-4">
+    <div class="row row-cols-md-4 row-cols-sm-2 row-cols-lg-4">
+        
+        {% if subjectList %}
+            {% for subject in subjectList %}
+                <div class="card p-3 m-3 language-option" style="width: 15rem;" subject-id="{{ subject.id }}">
+                        <img src="{{ url_for('static', filename='img/logos/'+subject.logo) }}" width="70" height="auto" class="card-img-top subject-logo" alt="{{ subject.name }}">
+                    <div class="card-body pt-0">
+                        <p>
+                            <div class="subject-name mt-0 badge rounded-pill bg-dark d-flex justify-content-center">
+                                {{ subject.name }}
+                            </div>
+                        </p>
+                        <a href="{{ url_for('subject', subject_id=subject.id) }}" class="btn btn-sm btn-outline-success">
+                            <i class="fa-solid fa-clipboard-list"></i>
+                            Tests
+                        </a>
+                        <div class="btn btn-sm btn-outline-secondary edit-subject"><i class="fa-regular fa-pen-to-square"></i></div>
+                        <div class="btn btn-sm btn-danger delete-subject"><i class="fa-solid fa-trash-can"></i></div>
+                    </div>
+                  </div>
+            {% endfor %}
+        {% else %}
+            No subject found !!!
+        {% endif %}
+        
+    </div>
+</div>
+
+
+<div class="modal fade" id="add-subject-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="add-subject-label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="subject-form" enctype="multipart/form-data" method="post">
+            
+            {{ subject_form.hidden_tag() }}
+            
+            <div class="modal-header">
+                <h5 class="modal-title" id="add-subject-label">Add New Subject</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
+                <!-- <div class="container d-flex justify-content-center align-items-center"> -->
+                    <!-- <div class="row col-md-6 p-4 border" style="background-color:white;border-radius:14px;box-shadow:0px 1px 1px grey;max-width:350px;"> -->
+                    <!-- <div class="row col-md-6 p-4 border"> -->
+                        <!-- <form id="subject-form" enctype="multipart/form-data"> -->
+                            <div class="mb-3">
+                                <label for="subject-form-name" class="form-label">Name</label>
+                                <!-- <input type="name" name="name" class="form-control" id="subject-form-name" aria-describedby="nameHelp"> -->
+                                {{ subject_form.name }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="subject-form-logo" class="form-label">Logo</label>
+                                <!-- <input type="file" name="logo" class="form-control" id="subject-form-logo"> -->
+                                {{ subject_form.logo }}
+                            </div>
+                        <!-- </form> -->
+                    <!-- </div> -->
+                <!-- </div> -->
+
+
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" id="subject-form-submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+      </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="edit-subject-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="edit-subject-label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form id="subject-edit-form" enctype="multipart/form-data" method="post">
+            
+            {{ subject_form.hidden_tag() }}
+            
+            <div class="modal-header">
+                <h5 class="modal-title" id="edit-subject-label">Edit Subject</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="subject-id" name="subject_id">
+                <img src="" class="img-thumbnail subject-img" width="150" height="auto">
+                <div class="mb-3">
+                    <label for="subject-edit-form-name" class="form-label">Name</label>
+                    {{ subject_form.name }}
+                </div>
+                <div class="mb-3">
+                    <img src="" alt="">
+                    <label for="subject-edit-form-logo" class="form-label">Logo</label>
+                    {{ subject_form.logo }}
+                </div>
+
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="submit" id="subject-edit-form-submit" class="btn btn-primary">Save Changes</button>
+            </div>
+        </form>
+      </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block script %}
+    <script src="{{ url_for('static', filename='js/subjects.js') }}" ></script>
+{% endblock %}

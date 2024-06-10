@@ -1,0 +1,31 @@
+<!-- <nav aria-label="breadcrumb btn">
+    <ol class="breadcrumb btn p-1 rounded" style="color:white;background-color:darkgrey;">
+      <li class="breadcrumb-item"><a href="#" style="color: white;">Home</a></li>
+      <li class="breadcrumb-item"><a href="#">Library</a></li>
+      <li class="breadcrumb-item active" aria-current="page">Data</li>
+    </ol>
+</nav> -->
+
+
+{% if breadcrumb %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-left align-item-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb p-1 rounded">
+                        {% for name, values in breadcrumb.items() %}
+                            <li class="breadcrumb-item">
+                                <a href="{{ values.link }}">
+                                    {{ name|safe }}
+                                </a>
+                            </li>
+                            <!-- <li class="breadcrumb-item active" aria-current="page">Data</li> -->
+                        {% endfor %}
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

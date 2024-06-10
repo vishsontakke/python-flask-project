@@ -1,0 +1,12 @@
+- To auto generate models
+  -> alembic revision --autogenerate -m "<msg>"
+
+- To apply uprages
+  -> alembic upgrade heads
+
+- To downgrade  last/specific migration
+  -> alembic downgrade -1
+  -> alembic downgrade <8ac14e223d1e>
+
+- To show history
+  -> alembic history

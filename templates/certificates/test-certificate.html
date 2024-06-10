@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate</title>
+    <style>
+        body {
+            font-family: Roboto;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        .certificate-container {
+            padding: 0px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .certificate {
+            border: 20px solid #0C5280;
+            position: relative;
+            height: 951px;
+        }
+
+        .certificate:after {
+            content: '';
+            top: 0px;
+            left: 0px;
+            bottom: 0px;
+            right: 0px;
+            position: absolute;
+            /*background-image: url(https://image.ibb.co/ckrVv7/water_mark_logo.png);*/
+            background-size: 100%;
+            z-index: -1;
+        }
+
+        .certificate-header>.logo {
+            width: 80px;
+            height: 80px;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .certificate-title {
+            text-align: center;
+        }
+
+        .certificate-body {
+            text-align: center;
+            font-size: medium;
+        }
+
+        h1 {
+
+            font-weight: 400;
+            font-size: 88px;
+            color: #0C5280;
+        }
+
+        .student-name {
+            font-size: 44px;
+        }
+
+        .certificate-content {
+            margin: 0 auto;
+            width: 750px;
+            font-size: 2rem;
+        }
+
+        .about-certificate {
+            width: 800px;
+            margin: 0 auto;
+        }
+
+        .topic-description {
+
+            text-align: center;
+        }
+        .highlight
+        {
+            font-size: larger;
+            color: black;
+            font-weight: 270;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="certificate-container">
+        <div class="certificate">
+            <div class="water-mark-overlay"></div>
+            <div class="certificate-header">
+                <!-- <img src="{{ params['subject_logo'] }}" class="logo" alt="{{ params['subject_name'] }}"> -->
+            </div>
+            <div class="certificate-body">
+
+                <p class="certificate-title">
+                    <strong>"Mock Test"</strong>
+                </p>
+                <p class="certificate-title">
+                    <em>TYB.sc Computer Science Project</em>
+                </p>
+                <!-- <h1>Certificate of Completion</h1> -->
+                <h1>Certificate of Practice</h1>
+                <p class="student-name">{{ params['user_name'] }}</p>
+                <div class="certificate-content">
+                    <div class="about-certificate">
+                        <p>
+                            has completed <span class="highlight">{{ params['test_name'] }}</span> test on Date
+                            <br>
+                            <span class="highlight">{{ params['created_at'] }}</span>
+                        </p>
+                    </div>
+                    <p class="topic-title">
+                        The Topic consists of Questions related to {{ params['subject_name'] }}
+                    </p>
+                    <div class="text-center">
+                        <p class="topic-description text-muted">
+                            Successfully secured <span class="highlight">{{ params['percentage'] }}%</span> and <span class="highlight">{{ params['result'] }}</span> the test.
+                        </p>
+                    </div>
+                </div>
+                <br><br><br>
+                <div class="certificate-footer text-muted">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>Principal: ______________________</p>
+                        </div>
+                        <!-- <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>
+                                        Accredited by
+                                    </p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>
+                                        Endorsed by
+                                    </p>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

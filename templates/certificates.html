@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Certificates{% endblock %}
+
+{% block css %}
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/certificates.css') }}"> -->
+    <style>
+        .test-menu .dropdown-item:active
+        {
+            background-color: rgb(196, 196, 196);
+            color: black;
+        }
+    </style>
+{% endblock %}
+
+
+{% block content %}
+
+{% include 'breadcrumb.html' %}
+
+
+<div class="container mt-4">
+    <div class="row p-3">
+        {% for subject_name, obj in test_list.items() %}
+            <div class="card mb-3 ms-3 p-2 shadow-sm"style="max-width: 540px;">
+                <div class="row g-0">
+                <div class="col-md-4">
+                    <img src="{{ url_for('static', filename='img/logos/'+obj['subject_logo']) }}" class="img-fluid rounded-start" alt="{{ obj['subject_name'] }}">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ obj['subject_name'] }}</h5>
+                        <ol class="list-group list-group-numbered">
+                            {% for test in obj['test_list'] %}
+                                <li class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div class="ms-2 me-auto">
+                                        <div class="fw-bold">{{ test['test_name'] }}</div>
+                                        {{ test['test_date'] }}
+                                    </div>
+                                    <div class="dropdown test-menu">
+                                        <span class="text-secondary fs-5" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="btn btn-light fa-solid fa-ellipsis-vertical"></i>
+                                        </span>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a class="dropdown-item" href="{{ url_for('practiceResult', practice_id=test['practice_id']) }}">
+                                                    <i class="fa-solid fa-eye"></i>&nbsp;View
+                                                </a>
+                                                <a
+                                                    class="dropdown-item generate-certificate"
+                                                    href="{{ url_for('generateCertificate') }}"
+                                                    practice-id="{{ test['practice_id'] }}"
+                                                >
+                                                    <i class="fa-solid fa-certificate"></i>&nbsp;Certificate
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                          </ol>
+                        <!-- <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+                    </div>
+                </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block script %}
+    <script src="{{ url_for('static', filename='js/certificates.js') }}" ></script>
+{% endblock %}

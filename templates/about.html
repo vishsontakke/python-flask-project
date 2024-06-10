@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block title %}About{% endblock %}
+
+
+{% block content %}
+
+{% include 'breadcrumb.html' %}
+
+<!-- <div class="container d-flex justify-content-center align-items-center" style="margin-top:45px;"> -->
+<div class="container" style="margin-top:45px;">
+    <!-- <div class="row p-4 border" style="background-color:white;border-radius:14px;box-shadow:0px 1px 1px grey;"> -->
+        <div class="card mb-3" style="max-width: 540px;padding-left:0px;">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <img src="{{ url_for('static', filename='img/project/vivek.jpg') }}" class="img-fluid rounded-start" alt="Vivek J. Gupta">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">Vivek J. Gupta</h5>
+                    <p class="card-text text-muted">Web Developer</p>
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <th>Qualification</th>
+                                <th>:</th>
+                                <td>BSc C.S. (last year)</td>
+                            </tr>
+                            <tr>
+                                <th>Work Experience</th>
+                                <th>:</th>
+                                <td>2.6 years</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="card-text"><small class="text-body-secondary"></small></p>
+                </div>
+              </div>
+            </div>
+        </div>
+    <!-- </div> -->
+</div>
+
+<div class="container" style="margin-top: 20px;">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title fs-3">Mock Test</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">BSc Computer Science Project</h6>
+            <p class="card-text">
+                In today's competitive world, continuous learning and skill development are essential for personal and professional growth. Whether you’re a student preparing for exams, a job seeker aiming to enhance your employability, or a professional looking to upskill, mock tests play a crucial role in assessing your knowledge and improving your skills.
+            </p>
+
+
+            <dl class="row">
+                <dt class="col-sm-3">Assessment</dt>
+                <dd class="col-sm-9">Mock tests simulate real exam conditions, allowing you to gauge your understanding of a subject or topic.</dd>
+                
+                <dt class="col-sm-3">Practice</dt>
+                <dd class="col-sm-9">Regular practice through mock tests helps reinforce concepts, identify weak areas, and build confidence.</dd>
+
+                <dt class="col-sm-3">Performance Tracking</dt>
+                <dd class="col-sm-9">Tracking your performance over time helps you measure progress and set realistic goals.</dd>
+
+                <dt class="col-sm-3">Job Readiness</dt>
+                <dd class="col-sm-9">For job seekers, mock tests provide a glimpse into the types of questions asked during interviews and assessments.</dd>
+                
+                
+            </dl>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block script %}
+{% endblock %}

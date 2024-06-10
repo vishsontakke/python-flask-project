@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block title %}Practice Test{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/practice-result.css') }}">
+{% endblock %}
+
+
+{% block content %}
+
+{% include 'breadcrumb.html' %}
+
+{% if practice_data %}
+    <div class="container mb-5">
+        <div class="row border text-center border-secondary bg-light mt-2 p-3 shadow-sm rounded d-flex statics-card">
+            <div class="col-md-2">
+                <span class="statics-card-value">{{ practice_data['statics']['marks_obtain'] }}/{{ practice_data['statics']['total_marks'] }}</span><br>
+                <span class="statics-card-title">Marks Obtained</span>
+            </div>
+            <div class="col-md-2 border-start border-secondary">
+                <span class="statics-card-value">{{ practice_data['statics']['question_attend'] }}/{{ practice_data['statics']['total_question'] }}</span><br>
+                <span class="statics-card-title">Question Attend</span>
+            </div>
+            <div class="col-md-3 border-start border-secondary">
+                <span class="statics-card-value">{{ practice_data['statics']['time_taken'] }}</span><br>
+                <span class="statics-card-title">Time Taken</span>
+            </div>
+            <div class="col-md-3 border-start border-secondary">
+                <span class="statics-card-value">{{ practice_data['statics']['created_at'] }}</span><br>
+                <span class="statics-card-title">Practice Date</span> 
+            </div>
+            <div class="col-md-2 border-start border-secondary">
+                <span class="statics-card-value">{{ practice_data['statics']['result'] }}</span><br>
+                <span class="statics-card-title">Result</span> 
+            </div>
+        </div>
+        {% for i in practice_data['qna'] %}
+            <div class="row border bg-light mt-2 p-3 shadow-sm rounded d-flex question-card">
+                {{ i.question|safe }}
+                <br><br>
+                <div class="list-group list-group-radio d-grid gap-2 border-0">
+                    <div class="row">
+                        {% for option in i.options['option-list'] %}
+                            <div class="position-relative col-6 mb-2">
+                                {% if i.options['params']['selected_answer'] == option['option_id'] %}
+                                    {% if option['is_correct'] %}
+                                        {% set option_type = 'selected-correct' %}
+                                    {% else %}
+                                        {% set option_type = 'selected-wrong' %}
+                                    {% endif %}
+                                    <label
+                                        class="list-group-item py-3 pe-5 rounded d-flex"
+                                        for="option-group-{{ i.question_id }}-{{ loop.index }}"
+                                        input-group="option-group-{{ i.question_id }}"
+                                        option-type="{{ option_type }}"
+                                    >
+                                        <input
+                                            question-id="{{ i.question_id }}"
+                                            class="form-check-input me-3 fs-5"
+                                            type="radio"
+                                            name="option-group-{{ i.question_id }}"
+                                            id="option-group-{{ i.question_id }}-{{ loop.index }}"
+                                            value="{{ option['option_id'] }}"
+                                            checked
+                                            disabled
+                                        >
+                                        {{ option['option']|safe }}
+                                    </label>
+                                {% else %}
+                                    {% if i.options['params']['selected_answer'] == 0 %}
+                                        {% set option_type = '' %}
+                                    {% elif option['is_correct'] %}
+                                        {% set option_type = 'not-selected-correct' %}
+                                    {% else %}
+                                        {% set option_type = 'not-selected-wrong' %}
+                                    {% endif %}
+                                    <label
+                                        class="list-group-item py-3 pe-5 rounded d-flex"
+                                        for="option-group-{{ i.question_id }}-{{ loop.index }}"
+                                        input-group="option-group-{{ i.question_id }}"
+                                        option-type="{{ option_type }}"
+                                    >
+                                        <input
+                                            question-id="{{ i.question_id }}"
+                                            class="form-check-input me-3 fs-5"
+                                            type="radio"
+                                            name="option-group-{{ i.question_id }}"
+                                            id="option-group-{{ i.question_id }}-{{ loop.index }}"
+                                            value="{{ option['option_id'] }}"
+                                            disabled
+                                        >
+                                        {{ option['option']|safe }}
+                                    </label>
+                                {% endif %}
+
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+
+
+{% endblock %}
+
+
+{% block script %}
+    <!-- <script src="{{ url_for('static', filename='js/practice-result.js') }}" ></script> -->
+{% endblock %}
